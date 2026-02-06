@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+}
+
+.button {
+  display: inline-block;
+  margin: 15px;
+  padding: 20px 60px;
+  font-size: 1.5rem;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button.buy {
+  background-color: #3498db;
+}
+
+.button.buy:hover {
+  background-color: #2980b9;
+}
+
+.button.list {
+  background-color: #f1c40f;
+}
+
+.button.list:hover {
+  background-color: #d4ac0d;
+}
+
+.button.sell {
+  background-color: #e74c3c;
+}
+
+.button.sell:hover {
+  background-color: #c0392b;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.back-link {
+  position: fixed;
+  top: 20px;
+  left: 25px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-link:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(-3px);
+}
+
+.back-link:before {
+  content: "← ";
+}
+
+#status {
+  width: 100%;
+  margin-top: 20px;
+  display: none;
+}
+
+.status-card {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  flex-direction: column;
+}
+
+.status-close {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.status-close:hover {
+  color: #fff;
+  transform: scale(1.15);
+}
+
+.status-message {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #fff;
+}

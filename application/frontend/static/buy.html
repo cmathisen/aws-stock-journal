@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Buy Stocks</title>
+  <style>
+    .buy-container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 40px 60px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: left;
+      width: 320px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }    
+
+    .form-input {
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      text-align: center;
+      background-color: #fff;
+      color: #000;
+    }
+
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.4);
+      cursor: pointer;
+    }
+
+    .submit-button {
+      width: 100%;
+      display: block;
+      box-sizing: border-box;
+      padding: 12px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #2980b9;
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">Home</a>
+  <div class="buy-container">
+    <h1>Buy Stock</h1>
+    <form id="buy-form" method="POST" action="https://3a83pmz9ek.execute-api.us-east-1.amazonaws.com/production/buy">
+      <label class="form-label" for="date">Date</label>
+      <input class="form-input" type="date" id="date" name="date" required>
+
+      <label class="form-label" for="ticker">Ticker</label>
+      <input class="form-input" type="text" id="ticker" name="ticker" placeholder="e.g. AAPL" pattern="[A-Za-z]{1,5}" minlength="1" maxlength="5" required>
+
+      <label class="form-label" for="buyPrice">Buy Price</label>
+      <input class="form-input" type="number" id="buyPrice" name="buyPrice" placeholder="e.g. 175.25" min="0" step="0.01" required>
+
+      <label class="form-label" for="stopPrice">Stop Price</label>
+      <input class="form-input" type="number" id="stopPrice" name="stopPrice" placeholder="e.g. 160.00" min="0" step="0.01" required>
+
+      <label class="form-label" for="numShares"># Shares</label>
+      <input class="form-input" type="number" id="numShares" name="numShares" placeholder="e.g. 100" min="1" step="1" required>
+
+      <input class="submit-button" type="submit" value="Submit">
+    </form>
+    <div id="status" class="status" aria-live="polite">
+      <div class="status-card">
+        <button class="status-close" aria-label="Dismiss">&times;</button>
+        <p id="status-message" class="status-message"></p>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+      $("#buy-form").on("submit", function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const date = $("#date").val();
+        const ticker = ($("#ticker").val() || "").trim().toUpperCase();
+        const buyPrice = parseFloat($("#buyPrice").val());
+        const stopPrice = parseFloat($("#stopPrice").val());
+        const numShares = parseInt($("#numShares").val());
+        
+        if (!ticker) {
+          showStatusError("Ticker is required.");
+          return;
+        }
+        if (Number.isNaN(buyPrice) || buyPrice < 0) {
+          showStatusError("Buy price must be 0 or greater.");
+          return;
+        }
+        if (Number.isNaN(stopPrice) || stopPrice < 0) {
+          showStatusError("Stop price must be 0 or greater.");
+          return;
+        }
+        if (Number.isNaN(numShares) || numShares < 1) {
+          showStatusError("Number of shares must be 1 or greater.");
+          return;
+        }
+        
+        function showStatusMessage(message) {
+          $("#status-message").html(`${message}`);
+          $("#status").show();
+        }
+
+        $.ajax({
+          url: $form.attr("action"),
+          method: $form.attr("method"),
+          data: $form.serialize(),
+          success: function (data) {
+            showStatusMessage(`
+              Trade received for <strong>${ticker}</strong>
+              <a href="list.html" class="button list">List Stocks</a>
+            `);
+
+            $form[0].reset();
+            $("#date").val(date);
+            $("#ticker").focus();
+          },
+          error: function (xhr) {
+            showStatusMessage(`Error (${xhr.status}). Please try again.`);
+          }
+        });
+      });
+  </script>
+  <script>
+    $(".status-close").on("click", function () {
+      $("#status").fadeOut(150, function () {
+        $("#status-message").html("");
+      });
+    });
+</script>
+</body>
+</html>
