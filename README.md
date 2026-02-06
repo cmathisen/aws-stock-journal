@@ -4,7 +4,7 @@ A cloud-native stock journal application built to practice and demonstrate AWS s
 
 ## Goals
 - Replace a manual spreadsheet-based journal with a lightweight web + API workflow
-    - See: https://docs.google.com/spreadsheets/d/1oNDQtEPqD_WtZaTYbdhblclHoyXad8_Q_6KZVoeKa_k/edit?usp=sharing
+    - See: https://docs.google.com/spreadsheets/d/1JYuFqA9rfo7pahoipgd-pHQJ19Dp2gT7eKDh6nfqgE4/edit?usp=sharing
 - Emphasize reliability, auditability, and clean data modeling
 - Practice AWS services and infrastructure-as-code patterns
 
